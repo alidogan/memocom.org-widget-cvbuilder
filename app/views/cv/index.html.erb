@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+    <meta charset="utf-8">
+    <title>CV Builder</title>
+    <!--
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    -->
+    <script src="/assets/angular.js"></script>
+    <script src="/assets/angular-dragdrop.js"></script>    
+         
+    <style>
+    /* Cv template style */     
+      table {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+      td {
+        vertical-align: top;
+      }
+      .toptable {
+        width: 775px;
+        align: left;
+      }
+      .titleheader {
+        border-bottom: 1px solid #CCCCCC;
+        font-weight: bold;
+        font-size: 18px;
+        width: 775px;
+        padding-left: 3px;
+        color: black;
+        padding-bottom: -5px;
+      }
+      .titleheader_top {
+        border-bottom: 1px solid #CCCCCC;
+        font-weight: bold;
+        font-size: 18px;
+        width: 775px;
+        padding-left: 3px;
+        color: black;
+        padding-bottom: -5px;
+        padding-top: 5px;
+      }
+      .contenttable {
+        padding-left: 15px;
+        width: 675px;
+        padding-top: 5px;
+        line-heigth: 1.8;
+        padding-top: 10px;
+      }     
+    </style>
+
+    <style>
+        @media print {
+          
+          @page 
+          {
+              size: auto;   
+              margin: 0mm;  
+              margin-left: 16mm;
+          }
+          
+
+          .thumbnail {
+          border: none;
+          border-radius: none;
+          }
+
+          .btn {
+          display: none;
+          }
+
+          .panel-group {
+          display: none;
+          }
+
+          .container {
+          display: none;
+          }
+
+        }
+      
+        .thumbnail {
+          width:800px; 
+          margin:0 auto;
+          margin-top: 10px;
+        }
+
+        .print {
+
+          width:800px; 
+          margin:0 auto;
+          padding-top: 10px;
+          padding-bottom: 10px;
+
+        }
+
+        .panel-group {
+          padding-top: 10px;
+          width:800px; 
+          margin:0 auto;
+
+        }
+
+        .container {
+          width:800px;
+        }
+
+        .modal-body .btn-primary {
+          float: left;
+        }
+        .modal-body .btn-info {
+          float: left;
+        }
+
+        .clearfix {
+          padding: 0px !important;
+        }
+
+        .modal-body .btn-default {
+          margin-left: 10px;
+        }
+
+    </style>
+
+    </head>
+
+    <body ng-app="CombineModule" ng-controller="OverviewCtrl">
+      <div class="thumbnail" data-drop="true" data-jqyoui-options ng-model="list2" jqyoui-droppable>
+        <!-- TUSSENSTUK OMHEINENDE TABEL -->            
+        <table border="0" class="toptable">
+          <tbody>
+            <tr>
+                <td class="titleheader">
+                    Personalia
+                </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- EINDE TUSSENSTUK OMHEINENDE TABEL --> 
+
+            <div  data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list2" jqyoui-draggable ng-hide="!list2.title"> 
+          
+              <!-- Template met data -->
+              <table border="0" class="toptable">
+                    <tbody>
+                      <tr>
+                        <td class="contenttable">
+                      
+                          <table>
+                                <tbody>
+                                  <tr>
+                                    <td width="130"> Naam: </td>
+                                    <td width="350" height="22px;"> {{list2.name}} </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> Adres: </td>
+                                    <td> {{list2.address}} </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> Postcode, plaats:</td>
+                                    <td> {{list2.zipcode}} {{list2.city}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> Telefoon: </td>
+                                    <td>{{list2.phone_number}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> E-mail: </td>
+                                    <td> {{list2.email}} </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> Geboortedatum: </td>
+                                    <td> {{list2.date_of_birth}} </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> Geboorteplaats: </td>
+                                    <td> {{list2.place_of_birth}} </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> Nationaliteit: </td>
+                                    <td> {{list2.nationality}} </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="22px;"> Rijbewijs: </td>
+                                    <td> {{list2.driving_license}}</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                        </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Lege template -->
+            <div ng-show="!list2.title">
+              <table border="0" class="toptable">
+                    <tbody>
+                          <tr>
+                            <td class="contenttable">                         
+                          <table>
+                                <tbody>
+                                      <tr>
+                                        <td width="130"> Naam: </td>
+                                        <td width="350" height="22px;"></td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> Adres: </td>
+                                        <td></td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> Postcode, plaats:</td>
+                                        <td></td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> Telefoon: </td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> E-mail: </td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> Geboortedatum: </td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> Geboorteplaats: </td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> Nationaliteit: </td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="22px;"> Rijbewijs: </td>
+                                      </tr>
+                              </tbody>
+                      </table>
+                </tbody>
+              </table>
+        </div>
+      </div>
+
+    <div class="thumbnail" data-drop="true" ng-model='list1' data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true}">
+       <!-- TUSSENSTUK OMHEINENDE TABEL -->            
+        <table border="0" class="toptable">
+          <tbody>
+            <tr>
+                <td class="titleheader">
+                    Opleidingen
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      <!-- EINDE TUSSENSTUK OMHEINENDE TABEL -->  
+                    <div ng-repeat="item in list1" ng-show="item.title" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" >
+                      <table cellpadding="2" cellspacing="2">
+                        <tr>
+                        <td width="130" height="22px;">
+                            {{item.year_of_study}}
+                        </td>
+                        <td width="506">
+                            {{item.description}}
+                        </td>
+                        <td>
+                            {{item.city}}                   
+                        </td>           
+                      </tr>
+                    </table>
+                  </div>
+              </div>
+
+          <div class="thumbnail" data-drop="true" ng-model='list3' data-jqyoui-options="optionsList3" jqyoui-droppable="{multiple:true}">
+                   <!-- TUSSENSTUK OMHEINENDE TABEL -->            
+                    <table border="0" class="toptable">
+                      <tbody>
+                        <tr>
+                            <td class="titleheader">
+                                Werkervaring
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  <!-- EINDE TUSSENSTUK OMHEINENDE TABEL -->  
+            <div ng-repeat="item in list3" ng-show="item.title" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list3" jqyoui-draggable="{index: {{$index}},animate:true}" >
+              <table cellpadding="2" cellspacing="2">                                
+                  <tbody>
+                    <tr>
+                      <td width="130">
+                          {{item.work_year}}
+                      </td>
+                      <td colspan="2" width="506">
+                          <b>{{item.title}}</b>
+                      </td>
+                      <td>
+                          {{item.city}}                    
+                      </td>           
+                    </tr>
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td width="130">
+                          Branche:
+                      </td>
+                      <td width="370">
+                          {{item.branch}}
+                      </td>                       
+                    </tr>   
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td>
+                          Functie:
+                      </td>
+                      <td>
+                          {{item.job}}
+                      </td>                       
+                    </tr>
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td>
+                          Werkzaamheden:
+                      </td>
+                      <td>
+                          {{item.activities}}               
+                      </td>                       
+                    </tr>
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td>
+                          Voltijd/deeltijd:
+                      </td>
+                      <td>
+                          {{item.time}}
+                      </td>                       
+                    </tr>
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td>
+                          Adres:
+                      </td>
+                      <td>
+                          {{item.address}}
+                      </td>                       
+                    </tr>
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td>
+                          Postcode:
+                      </td>
+                      <td>
+                          {{item.zipcode}} {{item.city}}                   
+                      </td>                       
+                    </tr>
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td>
+                          Telefoon:
+                      </td>
+                      <td>
+                          {{item.phone_number}}                    
+                      </td>                       
+                    </tr>
+                    <tr>
+                      <td>&nbsp;
+                      </td>   
+                      <td>
+                          Referenties:
+                      </td>
+                      <td>
+                          {{item.references}}                    
+                      </td>                       
+                    </tr>                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="thumbnail" data-drop="true" ng-model='list4' data-jqyoui-options="optionsList4" jqyoui-droppable="{multiple:true}">
+              <!-- TUSSENSTUK OMHEINENDE TABEL -->            
+              <table border="0" class="toptable">
+                <tbody>
+                  <tr>
+                      <td class="titleheader">
+                          Talen
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- EINDE TUSSENSTUK OMHEINENDE TABEL -->  
+                  <div ng-repeat="item in list4" ng-show="item.title" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list4" jqyoui-draggable="{index: {{$index}},animate:true}" >
+                    <table cellpadding="2" cellspacing="2">
+                        <tbody>
+                          <tr>
+                              <td width="130" height="22px;">
+                                  {{item.title}}:
+                              </td>
+                              <td width="500">
+                                  {{item.description}}
+                              </td>           
+                          </tr>
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Personalia
+              </a>
+              <!-- Edit Personalia button trigger modal -->
+              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" style="float: right;">
+                <i class="glyphicon glyphicon-pencil"></i> 
+                Bewerk Personalia
+              </button>
+
+            </h4>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" >
+            <div class="panel-body">
+              <!-- Personalia buttons -->
+                <div class="btn btn-droppable" ng-repeat="item in list5" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
+                  <div class="btn btn-info btn-draggable" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</div>
+                </div>
+            </div>
+          </div>
+        </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo">
+          <h4 class="panel-title">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Opleidingen
+            </a>
+             <!-- Edit Opleidingen button trigger modal -->
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#opleiding" style="float: right;">
+              <i class="glyphicon glyphicon-pencil"></i> 
+              Bewerk Opleidingen
+            </button>
+          </h4>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+            <!-- Opleidingen buttons -->
+                <div class="btn btn-droppable" ng-repeat="item in opleidingen" data-drop="true" ng-model='opleidingen' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=opleidingen])'}"  jqyoui-droppable="{index: {{$index}}}">
+                  <div class="btn btn-info btn-draggable" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="opleidingen" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+              <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Werkervaring
+              </a>
+               <!-- Edit Werkervaring button trigger modal -->
+              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#werkervaring" style="float: right;">
+                <i class="glyphicon glyphicon-pencil"></i> 
+                Bewerk Werkervaring
+              </button>
+
+            </h4>
+          </div>
+          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+             <!-- Werkervaring buttons -->
+                <div class="btn btn-droppable" ng-repeat="item in werkervaring" data-drop="true" ng-model='werkervaring' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=werkervaring])'}"  jqyoui-droppable="{index: {{$index}}}">
+                  <div class="btn btn-info btn-draggable" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="werkervaring" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="heading4">
+            <h4 class="panel-title">
+              <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                Talen
+              </a>
+               <!-- Edit Talen button trigger modal -->
+              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#taal" style="float: right;">
+                <i class="glyphicon glyphicon-pencil"></i> 
+                Bewerk Talen
+            </h4>
+          </div>
+          <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+            <div class="panel-body">
+                <!-- Talen buttons -->
+                <div class="btn btn-droppable" ng-repeat="item in talen" data-drop="true" ng-model='talen' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=talen])'}"  jqyoui-droppable="{index: {{$index}}}">
+                <div class="btn btn-info btn-draggable" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="talen" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Print the page-->
+      <form class="print">
+        <button type="submit" class="btn btn-default" onclick="window.print();return false;">
+          <i class="glyphicon glyphicon-print"></i>
+          Print deze pagina
+        </button>
+      </form>
+
+
+      <!-- Modal Personalia-->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Personalia</h4>
+              </div>
+            <div class="modal-body">
+              <div ng-controller="FormController" ng-init="load_personalia()">
+                  <!-- Form personalia -->
+                  <form name="myForm"
+                        sf-schema="schema"
+                        sf-form="form"
+                        sf-model="model"
+                        ng-submit="onSubmit(myForm)">
+                  </form>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Modal talen -->
+      <div class="modal fade" id="taal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div ng-controller="FormController" ng-init="load_talen()">    
+                  <!-- Form talen -->        
+                  <form name="myForm2"
+                        sf-schema="talen"
+                        sf-form="form_talen"
+                        sf-model="model_talen"
+                        ng-submit="onSubmit_talen(myForm2)">
+                  </form>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Opleidingen -->
+      <div class="modal fade" id="opleiding" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div ng-controller="FormController" ng-init="load_opleidingen()">
+                  
+                  <!-- Form opleidingen -->
+                  <form name="myForm3"
+                        sf-schema="opleidingen"
+                        sf-form="form_opleidingen"
+                        sf-model="model_opleidingen"
+                        ng-submit="onSubmit_opleidingen(myForm3)">
+                  </form>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Werkervaring -->
+      <div class="modal fade" id="werkervaring" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div ng-controller="FormController" ng-init="load_werkervaring()">
+                  <!-- Form werkervaring -->
+                  <form name="myForm4"
+                        sf-schema="werkervaring"
+                        sf-form="form_werkervaring"
+                        sf-model="model_werkervaring"
+                        ng-submit="onSubmit_werkervaring(myForm4)">
+                  </form>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    <script type="text/javascript" src="/assets/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="/assets/tv4.js"></script>
+    <script type="text/javascript" src="/assets/ObjectPath.js"></script>
+    <script type="text/javascript" src="/assets/schema-form.min.js"></script>
+    <script type="text/javascript" src="/assets/bootstrap-decorator.min.js"></script>
+    <script type="text/javascript">
+    // Combine angular modules
+    angular.module("CombineModule", ["drag-and-drop", "myModule"]);
+
+    //Drag and drop module
+    var App = angular.module('drag-and-drop', ['ngDragDrop'] );
+
+    App.controller('OverviewCtrl', function($scope, $timeout, $http) {
+
+    // Ophalen json
+    $http.get('personalia.json').success (function(data){
+      $scope.list5 = data;
+    }); 
+
+    $http.get('opleidingen.json').success (function(data){
+      $scope.opleidingen = data;
+    }); 
+
+    $http.get('werkervaring.json').success (function(data){
+      $scope.werkervaring = data;
+    });
+
+    $http.get('talen.json').success (function(data){
+      $scope.talen = data;
+    });
+          
+    $scope.list1 = [];
+    $scope.list2 = {};
+    $scope.list3 = [];
+    $scope.list4 = [];
+
+    });
+
+    // Form module
+    var app = angular.module('myModule', ['schemaForm']);
+      App.controller('FormController', function($scope,$http) {
+      $scope.schema = {
+      "type": "object",
+      "title": "Types",
+      "properties": {
+        "title": {
+          "type": "string",
+          "default": "Personalia",
+          "title": "Titel:"
+        },
+        "name": {
+          "type": "string",
+          "title": "Naam:"
+        },
+        "address": {
+          "type": "string",
+          "title": "Straat en huisnummer:"
+        },
+        "zipcode": {
+          "type": "string",
+          "title": "Postcode:"
+        },
+        "city": {
+          "type": "string",
+          "title": "Plaats:"
+        },
+        "phone_number": {
+          "type": "string",
+          "title": "Telefoonnummer:"
+        },
+        "email": {
+          "type": "string",
+          "title": "E-mail:"
+        },
+        "date_of_birth": {
+          "type": "string",
+          "title": "Geboortedatum:"
+        },
+        "place_of_birth": {
+          "type": "string",
+          "title": "Geboorteplaats:"
+        },
+        "nationality": {
+          "type": "string",
+          "title": "Nationaliteit:"
+        },
+        "driving_license": {
+          "title": "Rijbewijs:",
+          "type": "string",
+          "enum": [
+            "Ja",
+            "Nee"
+          ]
+        }
+      }
+    };
+
+    $scope.talen = {
+      "type": "object",
+      "title": "Comment",
+      "required": [
+        "Talen"
+      ],
+      "properties": {
+        "Talen": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "title": "Taal:",
+                "type": "string"
+              },
+              "description": {
+                "title": "Beschrijving:",
+                "type": "string"
+              }
+              
+            },
+          
+          }
+        }
+      }
+    };
+
+    $scope.opleidingen = {
+      "type": "object",
+      "title": "Comment",
+      "required": [
+        "Opleidingen"
+      ],
+      "properties": {
+        "Opleidingen": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "title": "Titel:",
+                "type": "string"
+              },
+              "year_of_study": {
+                "title": "Studiejaren:",
+                "type": "string"
+              },
+              "city": {
+                "title": "Plaats:",
+                "type": "string"
+              },
+              "description": {
+                "title": "Beschrijving:",
+                "type": "string"
+              }
+              
+            },
+          
+          }
+        }
+      }
+    };
+
+    $scope.werkervaring = {
+      "type": "object",
+      "title": "Comment",
+      "required": [
+        "Werkervaring"
+      ],
+      "properties": {
+        "Werkervaring": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "title": "Titel:",
+                "type": "string"
+              },
+              "work_year": {
+                "title": "Werkjaren:",
+                "type": "string"
+              },
+              "branch": {
+                "title": "Branche:",
+                "type": "string"
+              },
+              "job": {
+                "title": "Functie:",
+                "type": "string"
+              },
+              "activities": {
+                "title": "Werkzaamheden:",
+                "type": "string"
+              },
+              "time": {
+                "title": "Voltijd/deeltijd:",
+                "type": "string"
+              },
+              "address": {
+                "title": "Straat en huisnummer:",
+                "type": "string"
+              },
+              "zipcode": {
+                "title": "Postcode:",
+                "type": "string"
+              },
+              "city": {
+                "title": "Plaats:",
+                "type": "string"
+              },
+              "phone_number": {
+                "title": "Telefoonnummer:",
+                "type": "string"
+              },
+              "references": {
+                "title": "Referentie:",
+                "type": "string"
+              }     
+            },
+          
+          }
+        }
+      }
+    };
+
+      $scope.form = [
+        "*",
+        {
+          "type": "submit",
+          "style": "btn-info",
+          "title": "Opslaan"
+        }
+      ];
+
+      $scope.form_talen = [
+
+      {
+        "key": "Talen",
+        "add": "Nieuw",
+        "style": {
+          "add": "btn-success"
+        },
+        "items": [
+          "Talen[].title",
+          "Talen[].description"
+       
+        ]
+      },
+      {
+        "type": "submit",
+        "style": "btn-info",
+        "title": "Opslaan"
+      }
+    ];
+
+    $scope.form_opleidingen = [
+
+      {
+        "key": "Opleidingen",
+        "add": "Nieuw",
+        "style": {
+          "add": "btn-success"
+        },
+        "items": [
+          "Opleidingen[].title",
+          "Opleidingen[].description",
+          "Opleidingen[].year_of_study",
+          "Opleidingen[].city"   
+        ]
+      },
+      {
+        "type": "submit",
+        "style": "btn-info",
+        "title": "Opslaan"
+      }
+    ];
+
+    $scope.form_werkervaring = [
+
+      {
+        "key": "Werkervaring",
+        "add": "Nieuw",
+        "style": {
+          "add": "btn-success"
+        },
+        "items": [
+          "Werkervaring[].title",
+          "Werkervaring[].work_year",
+          "Werkervaring[].branch",
+          "Werkervaring[].job",   
+          "Werkervaring[].activities",   
+          "Werkervaring[].time",   
+          "Werkervaring[].address",   
+          "Werkervaring[].zipcode",
+          "Werkervaring[].city",    
+          "Werkervaring[].phone_number",
+          "Werkervaring[].references"     
+        ]
+      },
+      {
+        "type": "submit",
+        "style": "btn-info",
+        "title": "Opslaan"
+      }
+    ];
+
+    $scope.load_opleidingen = function() { 
+    $http.get('opleidingen_read.json').success (function(data3){
+        if (data3 == "") {
+          console.log('data3 = null');
+            $scope.model_opleidingen = {"Opleidingen":[{}]};
+        }
+        else {
+          console.log('opleidingen found');
+            $scope.model_opleidingen = data3;
+          }
+        }).error(function(data3) {
+          console.log('data not found');
+          $scope.model_opleidingen = {"Opleidingen":[{}]};
+        });
+    }    
+
+    $scope.load_personalia = function() { 
+        $http.get('personalia_read.json').success (function(data){
+        if (data == "") {
+          console.log('data = null');
+            $scope.model = {};
+        }
+        else {
+          console.log('data found');
+            $scope.model = data;
+          }
+      }).error(function(data) {
+        console.log('data not found');
+        $scope.model = {};
+      });
+    }
+
+    $scope.load_werkervaring = function() { 
+     $http.get('werkervaring_read.json').success (function(data4){
+        if (data4 == "") {
+          console.log('data4 = null');
+            $scope.model_werkervaring = {"Werkervaring":[{}]};
+        }
+        else {
+          console.log('werkervaring found');
+            $scope.model_werkervaring = data4;
+          }
+        }).error(function(data4) {
+          console.log('data not found');
+          $scope.model_werkervaring = {"Werkervaring":[{}]};
+      });
+    }
+                   
+      $scope.load_talen = function() {       
+
+        $http.get('talen_read.json').success (function(data2){
+          if (data2 == "") {
+              console.log('data2 = null');
+              $scope.model_talen = {"Talen":[{}]};
+          } else {
+            console.log('talen found');
+             $scope.model_talen = data2;
+            
+          }
+
+        }).error(function(data2) {
+          console.log('data not found');
+          $scope.model_talen = {"Talen":[{}]};
+        });
+
+
+      }
+
+      $scope.onSubmit = function(form) {
+        // First we broadcast an event so all fields validate themselves
+        $scope.$broadcast('schemaFormValidate');
+
+        // Then we check if the form is valid
+        if (form.$valid) {
+          // Save data to json
+           console.log ( 'save button clicked' );
+           location.reload();
+           $http.post('personalia.json',$scope.model).success(function(data) {
+            });
+        }
+      }
+
+      $scope.onSubmit_talen = function(form) {
+        // First we broadcast an event so all fields validate themselves
+        $scope.$broadcast('schemaFormValidate');
+
+        // Then we check if the form is valid
+        if (form.$valid) {
+          // Save data to json
+           console.log ( 'save button clicked' );
+           location.reload();
+           $http.post('talen.json',$scope.model_talen).success(function(data) {
+            });
+        }
+      }
+
+      $scope.onSubmit_opleidingen = function(form) {
+        // First we broadcast an event so all fields validate themselves
+        $scope.$broadcast('schemaFormValidate');
+
+        // Then we check if the form is valid
+        if (form.$valid) {
+          // Save data to json
+           console.log ( 'save button clicked' );
+           location.reload();
+           $http.post('opleidingen.json',$scope.model_opleidingen).success(function(data) {
+            });
+        }
+      }
+
+      $scope.onSubmit_werkervaring = function(form) {
+        // First we broadcast an event so all fields validate themselves
+        $scope.$broadcast('schemaFormValidate');
+
+        // Then we check if the form is valid
+        if (form.$valid) {
+          // Save data to json
+           console.log ( 'save button clicked' );
+           location.reload();
+           $http.post('werkervaring.json',$scope.model_werkervaring).success(function(data) {
+            });
+        }
+      }
+    });
+
+    </script>
+  </body>
+</html>

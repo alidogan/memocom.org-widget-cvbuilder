@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+  <head>
+      <meta charset="utf-8">
+      <title>Memocom.org</title>
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <!-- CSS -->
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/lightbox.css"> 
+      <link rel="stylesheet" type="text/css" href="css/jquery.gridster.css">
+      
+      <!-- Fonts -->
+      <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+      
+      <!-- Javascript -->
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      
+      <script src="js/jquery.gridster.js" type="text/javascript" charset="utf-8"></script>
+      
+      <script src="js/lightbox.js"></script> 
+      
+      <script src="js/script.js"></script>
+      
+  </head>
+  <body>
+      <div id="wrapper">
+          <div id="main_nav_bar">
+            <div id="logo">
+                <a href="/blobs"><img src="assets/logo_temp.png" alt=""/></a>
+            </div>
+          </div>
+          <div id="share_header">
+              <h1>Welcome to the Memocom of "User"</h1>
+              <p>
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
+              </p>
+              <p>Would you like to join the revolution?<br><a href="#">www.memocom.org</a></p>
+              
+          </div>
+          <div id="share_content">
+              <h2>Please enter the password:</h2>
+              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+              <%= form_tag("/private_download", method: "get") do %>
+				<%= text_field_tag(:auth)%>
+				<%= hidden_field_tag(:key, @key) %><br />
+				<%= submit_tag("Submit") %>
+			  <% end %>
+          </div>
+      </div>
+  </body>
+</html>

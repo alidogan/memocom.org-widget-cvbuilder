@@ -1,0 +1,189 @@
+////////// Widget ////////
+var app = angular.module('app')
+app.controller('DashboardCtrl', ['$scope', '$timeout','$http',
+	function($scope, $timeout, $http) {
+      
+		$scope.gridsterOptions = {
+			margins: [20, 20],
+			columns: 4,
+
+			resizable: { // options to pass to resizable handler
+			enabled: false,
+			},
+
+			draggable: {
+				enabled: false
+			}
+			
+		};
+		
+	$scope.onOptions = function(){
+       	$scope.gridsterOptions = {
+			margins: [20, 20],
+			columns: 4,
+
+			resizable: { // options to pass to resizable handler
+			enabled: true,
+			handles: ['s', 'e', 'n', 'w', 'se', 'ne', 'sw', 'nw']
+			},
+
+			draggable: {
+				enabled: true,
+				handle: 'h3'
+			}
+		};
+    };
+
+    $scope.onOptions2 = function(){
+       	$scope.gridsterOptions = {
+			margins: [20, 20],
+			columns: 4,
+
+			resizable: { // options to pass to resizable handler
+			enabled: false,
+			},
+
+			draggable: {
+				enabled: false
+			}
+		};
+    };
+
+		// Ophalen json
+		$http.get('dashboard.json').success (function(data){
+				$scope.dashboard = data;
+			}); 
+		
+		// Json positie opslaan
+		$scope.save = function() {
+    		$http.post('dashboard.json', $scope.dashboard).success(function(data) {
+    		});
+    		$scope.msg = 'Position saved';
+  		};
+
+  		$scope.$watch('dashboard', function(data){
+   			$http.post('dashboard.json', $scope.dashboard).success(function(data) {
+    		});
+		}, true);
+
+		$scope.customItems = [
+      		{ size: { x: 2, y: 1 }, position: [0, 0] },
+    	];
+
+		$scope.clear = function() {
+			$scope.dashboard = [];
+		};
+
+		$scope.addWidget = function() {
+			$scope.dashboard.push({
+				name: "New Widget",
+				sizeX: 1,
+				sizeY: 1
+			});
+		};
+
+	}
+])
+
+.controller('CustomWidgetCtrl', ['$scope', '$modal',
+	function($scope, $modal) {
+
+		$scope.remove = function(widget) {
+			$scope.dashboard.splice($scope.dashboard.indexOf(widget), 1);
+		};
+
+		$scope.openSettings = function(widget) {
+			$modal.open({
+				scope: $scope,
+				templateUrl: '/assets/views/widget_settings.html',
+				controller: 'WidgetSettingsCtrl',
+				resolve: {
+					widget: function() {
+						return widget;
+					}
+				}
+			});
+		};
+
+	}
+])
+
+.controller('WidgetSettingsCtrl', ['$scope', '$timeout', '$rootScope', '$modalInstance', 'widget',
+	function($scope, $timeout, $rootScope, $modalInstance, widget) {
+		$scope.widget = widget;
+
+		$scope.form = {
+			name: widget.name,
+			sizeX: widget.sizeX,
+			sizeY: widget.sizeY,
+			col: widget.col,
+			row: widget.row
+		};
+
+		$scope.sizeOptions = [{
+			id: '1',
+			name: '1'
+		}, {
+			id: '2',
+			name: '2'
+		}, {
+			id: '3',
+			name: '3'
+		}, {
+			id: '4',
+			name: '4'
+		}];
+
+		$scope.dismiss = function() {
+			$modalInstance.dismiss();
+		};
+
+		$scope.remove = function() {
+			$scope.dashboard.splice($scope.dashboard.indexOf(widget), 1);
+			$modalInstance.close();
+		};
+
+		$scope.submit = function() {
+			angular.extend(widget, $scope.form);
+
+			$modalInstance.close(widget);
+		};
+
+	}
+])
+
+// helper code
+.filter('object2Array', function() {
+	return function(input) {
+		var out = [];
+		for (i in input) {
+			out.push(input[i]);
+		}
+		return out;
+	}
+});
+
+
+/////////////// To Do / Notes widget /////////////
+app.controller('todoController',['$scope','$http',function($scope, $http){
+ 
+    $http.get('todo.json').success (function(data2){
+				$scope.todos = data2;
+			}); 
+
+    $scope.addTodo = function(){
+        $scope.todos.push({'title':$scope.newTodo,'done':false})
+        $scope.newTodo =''
+        $http.post('todo.json', $scope.todos).success(function(data2) {
+    		});
+    }
+    $scope.clearCompleted = function(){
+        $scope.todos = $scope.todos.filter(function(item){
+            return !item.done
+        })
+
+        $http.post('todo.json', $scope.todos).success(function(data2) {
+    		});
+    }
+
+}]);

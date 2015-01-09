@@ -1,0 +1,16 @@
+<% require 'open-uri' %>
+
+<% url = "http://api.whatthetrend.com/api/v2/trends.json" %>
+
+<% data = JSON.parse(open(url).read) %>
+
+<% trends = data["trends"] %>
+
+<ul style="padding-left: 0px;">
+	<% trends.each do |subject| %>
+	<li style="background-color: white;">
+	<a href='<%=subject["url"] %>'><%= subject["name"]%></a>
+	</li>
+</ul>
+
+<% end %>

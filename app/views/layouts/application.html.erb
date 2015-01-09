@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MemocomOrg</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+  <!-- Fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container-fluid">
+              <div class="navbar-header">
+                  <a class="navbar-brand" href="index.html">
+                      <img class="normal_img" alt="Brand" src="/assets/memocom_logo_trans.png">
+                      <img class="hover_img" alt="Brand" src="/assets/memocom_logo_trans_hover.png">
+                  </a>              
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <% if @active == 'home' %>
+                        <li class ="active"><%=link_to t(:nav_bar_home), root_path%></li>
+                    <% else %>
+                        <li><%=link_to t(:nav_bar_home), root_path%></li>
+                    <% end %>
+
+                    <% if @active == 'storage' %>
+                        <li class ="active"><%=link_to t(:nav_bar_storage), storagedb_path%></li>
+                    <% else %>
+                        <li><%=link_to t(:nav_bar_storage), storagedb_path%></li>
+                    <% end %>
+
+                    <% if @active == 'status' %>
+                        <li class ="active"><%=link_to t(:nav_bar_status), status_path%></li>
+                    <% else %>
+                        <li><%=link_to t(:nav_bar_status), status_path%></li>
+                    <% end %>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Historie
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="last_added_title"><h4>Laatst toegevoegd:</h4></li>
+                            <% @history.each do |element| %>
+                                <li id="history_item_<%=element.id%>">
+                                    <a href="#">
+                                        <%= image_tag("#{I18n.locale}/Icons/32x32/32x32_#{element.filetype}.png") %>
+                                        <span>- <%= element.filename.split('.')[0]%> uploaded</span>
+                                        <div class="clear"></div>
+                                    </a>
+                                </li>
+                            <% end %>
+                        </ul>
+                    </li>
+                    <li class="dropdown" style="display: none;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Zoeken 
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+                    <li><a id="upload_button_main" href="#upload-popup" class="open-popup-link">Upload</a></li>
+                    <% if @active == 'settings' %>
+                        <li class ="active"><%=link_to t(:nav_bar_settings), settings_path%></li>
+                    <% else %>
+                        <li><%=link_to t(:nav_bar_settings), settings_path%></li>
+                    <% end %>
+
+                    <% if @active == 'help' %>
+                        <li class ="active"><%=link_to t(:nav_bar_help), help_path%></li>
+                    <% else %>
+                        <li><%=link_to t(:nav_bar_help), help_path%></li>
+                    <% end %>
+                </ul>
+                <form class="navbar-form navbar-right search-form" action="<%= storagedb_path %>" method="get" id="search_form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="s" placeholder="Zoek naar bestand">
+                    </div>
+                    <button type="submit" class="btn btn-default" form="search_form">Zoek</button>
+                </form>
+              </div>
+          </div>
+        </nav>        
+
+<%= yield %>
+
+        <div id="upload-popup" class="white-popup mfp-hide">
+            <div class="row">   
+                <h1>Upload</h1>
+                <ul class="nav nav-tabs">
+                    <li id="file_upload_button" role="presentation" class="active"><a href="#">Upload bestanden</a></li>
+                    <li id="contact_upload_button" role="presentation"><a href="#">Upload een contact</a></li>
+                </ul>
+                <div id="upload_files_form_wrapper">
+                    <div class="upload_form">
+                        <p>Kies uw bestanden:</p>
+                        <%= form_for(@sha) do |f| %>
+                            <%= f.file_field :file_input, multiple: true, id: "file-upload" %>
+                            <%= f.text_area :description, class: "form-control", placeholder: "#{t(:upload_popup_desc)}" %>
+                            <label for="upload_filter_tags" style="margin-top: 10px; font-size:12px;">Voeg tags toe:</label>
+                            <input id="upload_files_tags" type="text" style="width:330px;">
+                            <%= f.button "Upload", class: "btn btn-default upload_submit_button" %>
+                        <% end %>
+                    </div>
+                    <div class="loading_status">
+                        <img src="/assets/Icons/loading.gif" alt="Uploading" title="Uploading"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div id="upload_contact_form_wrapper">
+                    <div class="upload_form">
+                        <form action="" method="">
+                            <input type="text" class="form-control" id="contact_firstname" placeholder="Voornaam"/>
+                            <input type="text" class="form-control" id="contact_lastname" placeholder="Achternaam"/>
+                            <input type="email" class="form-control" id="contact_email" placeholder="Email"/>
+                            <p>Voeg een profiel foto toe:</p>
+                            <input type="file" id="contact_image"/>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                    </div>
+                    <div class="loading_status">
+                        <img src="/assets/Icons/loading.gif" alt="Uploading" title="Uploading"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <footer class="footer">
+            <div class="container">
+                <p>Memocom.org - 2014</p>
+            </div>
+        </footer>
+
+		<!-- End Pop-ups -->
+        
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+
+        <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+        <script src="/assets/bootstrap.min.js"></script>
+        <script src="/assets/select2.js"></script>
+        <script src="/assets/lightbox.js"></script>
+        <script src="/assets/script.js"></script>
+
+
+
+        
+       
+
+</body>
+</html>

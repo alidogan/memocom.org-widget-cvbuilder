@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="/assets/favicon/favicon.ico">
+
+        <title>Memocom.org | Opslag</title>
+        
+        <!-- Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+
+        <!-- Bootstrap core CSS -->
+        
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+
+        <!-- Custom styles for this template -->
+        
+
+    </head>
+    <body>    
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li id="filter_slideout" class="active">
+                            <span class="sidebar-filter-trigger">
+                                <div class="sidebar-icon">
+                                    <img src="/assets/Icons/32x32_filter.png" alt="" title="filter"/>
+                                </div>
+                                <div class="sidebar-link">
+                                    <span>Filter</span>
+                                    <span class="sr-only">(current)</span>
+                                </div>
+                                <div class="clear"></div>
+                            </span>
+                            <div class="sidebar-filter">
+                                <ul>
+                                    <% @filter.each do |element| %>
+                                    <li><span><%= element.filetype %></span></li>
+                                    <%end %>
+                                </ul>
+                                <div class="filter_button">
+                                    <a href="#">Filter</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div id="sort_wrapper" class="row">
+                        <div id="files_sort" class="col-sm-8 col-md-10">
+                            <div id="files_sort" class="col-sm-4  col-md-4">
+                                <form id="sort_form" action="<%= storagedb_path %>" method="get">
+                                	<% if !@s.nil? %>
+                                		<input type="hidden" name="s" value="<%=@s%>">
+                                	<% end %>
+                                	<% if !@fi.nil? %>
+                                		<input type="hidden" name="f" value="<%=@fi%>">
+                                	<% end %>
+                                    <div class="form-group">
+                                        <label class="control-label">Sorteer</label><br>
+                                        <select id="main_sort_list" style="width: 300px" name="sort">
+                                        	<option>Kies een sorteer optie</option>
+                                            <optgroup label="Naam">
+                                                <option value="filename-asc">A - Z(Naam)</option>
+                                                <option value="filename-desc">Z - A(Naam)</option>
+                                            </optgroup>
+                                            <optgroup label="Datum">
+                                                <option value="created_at-asc">Nieuw naar oud</option>
+                                                <option value="created_at-desc">Oud naar nieuw</option>
+                                            </optgroup>
+                                            <optgroup label="Bestandstype">
+                                                <option value="filetype-asc">A - Z(Bestandstype)</option>
+                                                <option value="filetype-desc">Z - A(Bestandstype)</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="files_sort_button"  class="col-sm-4  col-md-5">
+                                <button type="submit" class="btn btn-default" form="sort_form">Sorteer</button>
+                            </div>
+                        </div>
+                        <div id="files_view" class="col-sm-2 col-md-2">
+                            <div class="view_settings">
+                                <p>Toon items als:</p>
+                                <div id="set_blocks" class="active">
+                                    <img src="/assets/Icons/ic_block_view_new.png" alt="" title="Blokken"/>
+                                </div>
+                                <div id="set_list">
+                                    <img src="/assets/Icons/ic_list_view_new.png" alt="" title="Lijst"/>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div id="files_wrapper" class="row">
+                        
+                        <% if @all.empty? && @s.nil? && @f.nil? %>
+                            <h1><%= t :empty %></h1>
+                        <% elsif @all.empty?%>
+                            <h1><%= t :no_results%></h1>
+                        <% end %>
+
+                        <div id="file_blocks" class="active">
+
+                            <% @all.each do |element| %>
+                                <% auth = element.auth.split(' ') %>
+                                <% full_image = element.thumbnail.sub("IP_HERE_TEMP_HJK", @ip).split('?')[0] %>
+                                <% thumb = element.thumbnail.sub("IP_HERE_TEMP_HJK", @ip) %>
+                                <div id="<%=element.id%>" class="col-xs-4 col-sm-3 col-md-2 col-lg-<%=@thumbnail_size%> file_item">
+                                    <div class="file_item_inner">
+                                        <div class="thumb_wrap">
+                                            <div class="dummy"></div>
+                                            <div class="thumb">
+                                                <% if element.thumbnail.include? 'IP_HERE' %>
+                                                    <img class="thumb_image" src="<%=thumb%>">
+                                                <% else %>
+                                                    <%= image_tag("#{I18n.locale}/Icons/256x256_#{element.filetype}.png", class: "thumb_image") %>
+                                                <% end %>
+                                            </div>
+                                            <div class="menu">
+                                                <a href="#details-popup" class="open-popup-link">
+                                                    <%= image_tag("#{I18n.locale}/Icons/32x32_info.png", class: "detail_button", title: "Details") %>
+                                                </a>
+                                                <a href="#share-popup" class="open-popup-link">
+                                                <%= image_tag("#{I18n.locale}/Icons/32x32_share.png", title: "Delen", onClick: "setShareInfo('#{element.filename}', 'http://#{@ip}:3000/public_download?d=#{element.download}', 'http://#{@ip}:3000/private?d=#{element.download}', #{auth});") %>
+                                                </a>
+                                                <a href="#edit-popup" class="open-popup-link">
+                                                    <%= image_tag("#{I18n.locale}/Icons/32x32_edit.png", class: "edit_button", title: "Aanpassen") %>
+                                                </a>
+                                                <a href="#delete-popup" class="open-popup-link">
+                                                    <%= image_tag("#{I18n.locale}/Icons/32x32_delete.png", class: "delete_button", title: "Verwijderen") %>
+                                                </a>
+                                                <div class="overlay"></div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                        <div class="file_info">
+                                            <div class="file_title_full"> <%= element.filename %> </div>
+                                            <div class="file_filetype"><%=element.filetype%></div>
+                                            <div class="file_full_url">http://<%=@ip%>:3000/public_download?d=<%=element.download%></div>
+                                            <% if element.filename.split('.')[0].length > 10 %>
+                                                <h4><%= element.filename.split('.')[0][0..9] + '...' %></h4>
+                                            <% else %>
+                                                <h4><%= element.filename.split('.')[0] %></h4>
+                                            <% end %>
+                                            <div class="file_date"><%=element.created_at%></div>
+                                            <%= element.created_at %>
+                                            <% if element.description.nil? %>
+                                                <div class="file_descrip">Informatie</div>
+                                            <% else %>
+                                                <div class="file_descrip"><%=element.description%></div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% end %>
+                        </div>
+                        
+                        <div id="files_list" class=" ">
+                            <!-- Main Item list-->
+                            <% @all.each do |element| %>
+                            	<% auth = element.auth.split(' ') %>
+	                            <div id="list_item0" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 file_list_item">
+	                                <div class="file_item_inner">
+	                                    <div class="image_wrap col-xs-4 col-sm-3 col-md-2 col-lg-2">
+	                                        <div class="thumb_wrap">
+	                                            <div class="dummy"></div>
+	                                            <div class="thumb">
+	                                                <% if element.thumbnail.include? 'IP_HERE' %>
+	                                                    <img class="thumb_image" src="<%=element.thumbnail.sub!("IP_HERE_TEMP_HJK", @ip)%>">
+	                                                <% else %>
+	                                                    <%= image_tag("#{I18n.locale}/Icons/256x256_#{element.filetype}.png", class: "thumb_image") %>
+	                                                <% end %>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="info_wrap col-xs-8 col-sm-9 col-md-10 col-lg-10">
+	                                        <div class="file_title">
+	                                            <span><%= element.filename %></span>
+	                                        </div>
+	                                        <div class="file_descrip">
+	                                            <p>
+													<% if element.description != "" %>
+														<%= element.description %>
+													<% else %>
+														Geen Omschrijving
+													<% end %>
+	                                            </p>
+	                                        </div>
+	                                        <div class="file_menu">
+												<a href="#details-popup" class="open-popup-link">
+													<%= image_tag("#{I18n.locale}/Icons/32x32_info.png", class: "detail_button", title: "Details") %>
+												</a>
+												<a href="#share-popup" class="open-popup-link">
+												<%= image_tag("#{I18n.locale}/Icons/32x32_share.png", title: "Delen", onClick: "setShareInfo('#{element.filename}', 'http://#{@ip}:3000/public_download?d=#{element.download}', 'http://#{@ip}:3000/private?d=#{element.download}', #{auth});") %>
+												</a>
+												<a href="#edit-popup" class="open-popup-link">
+													<%= image_tag("#{I18n.locale}/Icons/32x32_edit.png", class: "edit_button", title: "Aanpassen") %>
+												</a>
+												<a href="#delete-popup" class="open-popup-link">
+													<%= image_tag("#{I18n.locale}/Icons/32x32_delete.png", class: "delete_button", title: "Verwijderen") %>
+												</a>
+
+	                                            <div class="overlay"></div>
+	                                            <div class="clear"></div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        <% end %>
+                            <!-- End Main Item list-->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Memocom.org - 2014</p>
+        </footer>
+        
+        <!-- Details pop-up -->
+        <div id="details-popup" class="white-popup mfp-hide">
+            <div id="details_wrapper">
+                <div class="details_popup_top">
+                    <div class="detail_image clickable">
+                        <a href="#full-img-popup" class="open-popup-link">
+                            <img src="/assets/Icons/32x32/32x32_audio.png" alt="" title="Image"/>
+                        </a>
+                    </div>
+                    <div class="detail_info">
+                        <div class="detail_title">
+                            <h2>Banaan</h2>
+                            <div class="clear"></div>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Datum:</td>
+                                <td class="detail_popup_date">20 - 11 - 14</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="details_popup_bottom">
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+                </div>
+                <div class="detail_other">
+                        
+                </div>
+            </div> 
+        </div>
+        <!-- End details Pop-up -->
+        
+        <!-- Share Pop-up -->
+        <div id="share-popup" class="white-popup mfp-hide">
+            <div id="share_wrapper">
+                <h1>Delen</h1>
+                <p>Kies hoe u wilt delen:</p>
+                <div id="accordion_main">
+                    <h3>Selecteer contact(en)</h3>
+                    <div id="contact_sharing_list" class="contact_sharing">
+                        <div class="general_contact_options">
+                            <p>
+                                <a id="add_contact_button_external" href="#upload-popup" class="open-popup-link">+ Voeg een contact toe</a>
+                            </p>
+                        </div>
+                        <div class="categorie d">
+                            <h3>D</h3>
+                            <div class="contact_categorie_list">
+                                <div class="contact">
+                                    <div class="inner">
+                                        <div class="contact_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Contact"/>
+                                        </div>
+                                        <div class="contact_details">
+                                            <p>Ali Dogan</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="categorie g">
+                            <h3>G</h3>
+                            <div class="contact_categorie_list">
+                                <div class="contact">
+                                    <div class="inner">
+                                        <div class="contact_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Contact"/>
+                                        </div>
+                                        <div class="contact_details">
+                                            <p>Nick Gob&#233;e</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                                <div class="contact">
+                                    <div class="inner">
+                                        <div class="contact_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Contact"/>
+                                        </div>
+                                        <div class="contact_details">
+                                            <p>Jan van Gelderop</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="categorie n">
+                            <h3>N</h3>
+                            <div class="contact_categorie_list">
+                                <div class="contact">
+                                    <div class="inner">
+                                        <div class="contact_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Contact"/>
+                                        </div>
+                                        <div class="contact_details">
+                                            <p>Tamas Niks</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="categorie p">
+                            <h3>P</h3>
+                            <div class="contact_categorie_list">
+                                <div class="contact">
+                                    <div class="inner">
+                                        <div class="contact_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Contact"/>
+                                        </div>
+                                        <div class="contact_details">
+                                            <p>Oliver Ponder</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="categorie j">
+                            <h3>W</h3>
+                            <div class="contact_categorie_list">
+                                <div class="contact">
+                                    <div class="inner">
+                                        <div class="contact_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Contact"/>
+                                        </div>
+                                        <div class="contact_details">
+                                            <p>Hans Wegman</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Selecteer groep(en)</h3>
+                    <div id="group_sharing_list" class="group_sharing">
+                        <div class="categorie m">
+                            <h3>M</h3>
+                            <div class="group_categorie_list">
+                                <div class="group">
+                                    <div class="inner">
+                                        <div class="group_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Froup"/>
+                                        </div>
+                                        <div class="group_details">
+                                            <p>Memocom</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="categorie m">
+                            <h3>V</h3>
+                            <div class="group_categorie_list">
+                                <div class="group">
+                                    <div class="inner">
+                                        <div class="group_image">
+                                            <img src="/assets/Icons/256x256_contact_placeholder.png" alt="" title="Froup"/>
+                                        </div>
+                                        <div class="group_details">
+                                            <p>Voetbal</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Meer opties</h3>
+                    <div id="accordion_sub" class="more_options">   
+                        <h3>Deel een link</h3>
+                        <div class="link_sharing">
+                            <div class="public_share">
+                                <h4>Openbaar:</h4>
+                                <div class="link_wrapper">
+                                    <form>
+                                        <input onClick="this.setSelectionRange(0, this.value.length)" type="text" class="form-control public_link_input" readonly>
+                                        <div class="clipboard">
+                                            <img src="/assets/Icons/small/20x20_clipboard.png" alt="" title="Kopieer link"/>
+                                        </div>
+                                    </form>
+                                    <p>
+                                       Klik op de code en druk in: Ctrl + C om de code te kopiëren <a href="#" class="share_link">Click to download file.</a>
+                                    </p>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="private_share">
+                                <h4>Prive:</h4>
+                                <div class="link_wrapper">
+                                    <form>
+                                        <input onClick="this.setSelectionRange(0, this.value.length)" type="text" class="form-control private_link_input" readonly>
+                                        <div class="clipboard">
+                                            <img src="/assets/Icons/small/20x20_clipboard.png" alt="" title="Kopieer link"/>
+                                        </div>
+                                    </form>
+                                    <p>
+                                        Klik op de code en druk in: Ctrl + C om de code te kopiëren en selecteer een van de onderstaande wachtwoorden:<a href="#" class="share_link">Click to download file.</a>
+                                    </p>
+                                </div>
+                                <ul class="passkeys">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <h3>Email</h3>
+                        <div class="email_sharing">   
+                            <form action="MAILTO:someone@example.com" method="post">
+                                <input name="title" type="text" class="form-control" placeholder="Titel">
+                                <input name="email" type="email" class="form-control" placeholder="Email adressen" required>
+                                <input id="email_share_link" name="link" type="text" class="form-control" placeholder="Link" readonly>
+                                <textarea class="form-control" rows="5" placeholder="Beschrijving"></textarea>
+                                <button type="submit" class="btn btn-default">Versturen</button>
+                            </form>
+                        </div>
+                        <h3>Social Media</h3>
+                        <div class="social_media_sharing"> 
+                            <ul>
+                                <li><a href="#"><img src="/assets/Icons/64x64_facebook.png" alt="" title="Facebook"/></a></li>
+                                <li><a href="#"><img src="/assets/Icons/64x64_twitter.png" alt="" title="Twitter"/></a></li>
+                                <li><a href="#"><img src="/assets/Icons/64x64_linkedin.png" alt="" title="Linkedin"/></a></li>
+                                <li><a href="#"><img src="/assets/Icons/64x64_googleplus.png" alt="" title="Google+"/></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <!-- End share Pop-up -->
+        
+        <!-- Edit Pop-up -->
+        <div id="edit-popup" class="white-popup mfp-hide">
+            <h1>Aanpassen - Titel</h1>
+            <div id="edit_form_wrapper">
+				<form action="<%= change_path %>" method="get">
+					<input class="edit_id" name="id" value="" type="hidden">
+					<input name="delete" value="edit" type="hidden">
+					<input class="title_edit form-control" type="text" placeholder="Titel" name="filename">
+					<textarea class="form-control descrip_edit" rows="6" placeholder="Beschrijving" name="desc"></textarea>
+					<%= button_tag "Aanpassen", class: "btn btn-default", name: nil %>
+				</form>
+            </div> 
+        </div>
+        <!-- End update Pop-up -->
+        
+        <!-- Delete Pop-up -->
+		<div id="delete-popup" class="white-popup mfp-hide">
+			<h1>Verwijder - Titel</h1>
+			<p>Weet uw het zeker?</p>
+			<form action="<%= change_path %>" method="get">
+				<input class="delete_id" name="id" value="" type="hidden">
+				<div class="buttons_wrapper">
+					<button name="delete" value="true" type="submit" class="btn btn-default">Ja</button>
+					<button name="delete" value="false" type="submit" class="btn btn-default">Nee</button>
+				</div>
+			</form>
+		</div>
+        <!-- End delete Pop-up -->
+        
+        <!-- Full img Pop-up -->
+        <div id="full-img-popup" class="white-popup mfp-hide">
+            <img src="/assets/monkey.jpg" alt="" title="title"/> 
+        </div>
+        <!-- End full img Pop-up -->  
+    </body>
+</html>

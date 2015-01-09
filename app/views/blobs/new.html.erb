@@ -1,0 +1,13 @@
+<center>
+<h1>Upload File</h1>
+<div class="row">
+<div class="span6 offset3">
+<%= form_for(@blob) do |f| %>
+<%= f.file_field :file_input %><br /><br />
+<%= f.submit "Upload" %>
+
+<%= image_tag "banaan.jpg" %>
+<% end %>
+</div>
+</div>
+</center>

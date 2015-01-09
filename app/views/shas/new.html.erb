@@ -1,0 +1,11 @@
+<center>
+<h1>Upload File</h1>
+<div class="row">
+<div class="span6 offset3">
+<%= form_for(@sha) do |f| %>
+<%= f.file_field :file_input %><br /><br />
+<%= f.submit "Upload" %>
+<% end %>
+</div>
+</div>
+</center>

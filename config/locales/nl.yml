@@ -1,0 +1,55 @@
+nl:
+  ### NAVIGATION BAR ###
+  nav_bar_home: Home
+  nav_bar_storage: Opslag
+  nav_bar_status: Status
+  nav_bar_history: Historie
+  nav_bar_search: Zoeken
+  nav_bar_search_button: Search
+  nav_bar_upload: Upload
+  nav_bar_settings: Instellingen
+  nav_bar_help: Help
+
+  upload_popup_text: Kies uw bestanden
+  upload_popup_desc: Description
+
+  ### HOME ###
+  home_greeting: '"User", welkom bij jouw Memocom!'
+  home_slogan:   'Jouw digitale gegevens, van jou en jou alleen.'
+
+  ### STORAGE ###
+  storage_header: Opslag
+  empty:  U heeft nog geen files geupload.
+  no_results: Uw zoekopdracht heeft geen resultaten opgeleverd.
+
+  ### STATUS ###
+  status_header: Status - Komt Binnenkort!
+
+  graph1_header: Opslag
+  graph1_free: Vrije Opslag
+  graph1_used: Gebruikte Opslag
+
+  graph2_header: Geheugen
+  graph2_free: Vrij Geheugen
+  graph2_used: Gebruikt Geheugen
+
+  ### SETTINGS ###
+  settings_header: Instellingen - Komt Binnenkort!
+
+  ### HELP ###
+  help_header:          Help
+  help_search_button:   Zoeken
+
+  help_sub_1: Heeft u een probleem of snapt u iets niet?
+  help_sub_2: Kijk dan hier voor de oplossing of lees de handleiding.
+  help_sub_3: Geen antwoord gevonden?
+  help_sub_4: Neem dan contact op met onze helpdesk.
+
+  help_menu_1:  Jouw Memocom
+  help_menu_2:  Algemeen
+  help_menu_3:  Kastje
+  help_menu_4:  Veelgestelde Vragen
+  help_menu_5:  Tutorials(?)
+  help_menu_6:  Helpdesk
+
+  help_coming_soon: Komt Binnenkort!

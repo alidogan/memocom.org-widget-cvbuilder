@@ -1,0 +1,126 @@
+  <head>
+      <meta charset="utf-8">
+      <title>Memocom.org</title>
+      <meta name="description" content="">
+      <meta name="author" content="">
+      
+      <!-- Fonts -->
+      <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+      
+  </head>
+  <body>
+    <div id="wrapper">
+        <div id="main_nav_bar">
+            <div id="logo">
+                <a href=""><img src="assets/logo_temp.png" alt=""/></a>
+            </div>
+            <div id="nav_main">
+                <ul>
+                    <li class="active"><%= link_to "Home", blobs_path %></li>
+                    <li><span>|</span></li>
+                    <li><%= link_to "Storage", storage_path %></li>
+                    <li><span>|</span></li>
+                    <li><%= link_to 'About', about_path%></li>
+                </ul>
+            </div>
+            <div id="nav_user">
+                <ul>
+                    <li class="notification_button">
+                        <a href="">
+                            <img src="assets/Icons/medium/16x20_notification.png" alt="Notifications"/>                     
+                        </a>
+                        <ul>
+                            <li class="notification_title">Notifications:</li>
+                            <% @filenames.each_with_index do |upload, i| %>
+                                <li>
+                                    <a href="#">
+                                        <%= image_tag @icons[i] %>
+                                        <span>- <%= upload %> uploaded</span>
+                                        <div class="clear"></div>
+                                    </a>
+                                </li>
+                            <% end %>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#upload-popup" class="open-popup-link">
+                            <img src="assets/Icons/medium/18x20_upload.png" alt="Upload files"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="main_content">
+            <div id="content_wrapper" class="home">
+                <div class="gridster">
+                    <ul>
+                        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1"></li>
+                        <li data-row="2" data-col="1" data-sizex="1" data-sizey="1"></li>
+                        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1"></li>
+                        <li data-row="4" data-col="1" data-sizex="1" data-sizey="1"></li>
+
+                        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1"></li>
+                        <li data-row="2" data-col="2" data-sizex="2" data-sizey="2"></li>
+                        <li data-row="3" data-col="2" data-sizex="1" data-sizey="1"></li>
+                        <li data-row="4" data-col="2" data-sizex="2" data-sizey="1"></li>
+
+                        <li data-row="1" data-col="4" data-sizex="1" data-sizey="1"></li>
+                        <li data-row="2" data-col="4" data-sizex="2" data-sizey="1"></li>
+                        <li data-row="3" data-col="4" data-sizex="1" data-sizey="1"></li>
+
+                        <li data-row="1" data-col="5" data-sizex="1" data-sizey="1"></li>
+                        <li data-row="3" data-col="5" data-sizex="1" data-sizey="1"></li>
+
+                        <li data-row="1" data-col="6" data-sizex="1" data-sizey="1"></li>
+                        <li data-row="2" data-col="6" data-sizex="1" data-sizey="2"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="inner">
+                <span>Memocom.org</span>
+            </div>
+        </div>
+    </div>
+      
+    <!-- Pop-up -->
+    <div id="upload-popup" class="white-popup mfp-hide">
+        <div id="upload_form_wrapper">
+            <div class="upload_form">
+                <h1>Upload</h1>
+                <%= form_for(@blob) do |f| %>
+                    <%= f.file_field :file_input %><br /><br />
+                    <%= hidden_field_tag(:return_to, "storage") %>
+                    <%= f.submit "Upload" %>
+                <% end %>
+            </div>
+            <div class="loading_status">
+                <img src="assets/Icons/loading.gif" alt="Uploading" title="Uploading"/>
+            </div>
+            <div class="clear"></div>
+        </div> 
+    </div>
+    <!-- End Pop-up --> 
+      
+    <script type="text/javascript">
+        $(function(){ //DOM Ready
+        
+            $('.open-popup-link').magnificPopup({
+                type:'inline',
+                midClick: true
+            });
+
+            if($('.gridster')){
+                //Initialize gridster
+                $(".gridster ul").gridster({
+                    widget_margins: [20, 20],
+                    widget_base_dimensions: [140, 140]
+                });
+            }
+            
+        });
+    </script>
+  </body>
+</html>

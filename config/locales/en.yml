@@ -1,0 +1,77 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+### NAVIGATION BAR ###
+  nav_bar_home: Home
+  nav_bar_storage: Storage
+  nav_bar_status: Status
+  nav_bar_history: History
+  nav_bar_search: Search
+  nav_bar_search_button: Search
+  nav_bar_upload: Upload
+  nav_bar_settings: Settings
+  nav_bar_help: Help
+
+
+  upload_popup_text: Choose your files
+  upload_popup_desc: Description
+
+### HOME ###
+  home_greeting: '"User", welcome to your Memocom!'
+  home_slogan: 	'Your digital data is yours, and yours alone.'
+
+### STORAGE ###
+  storage_header: Storage
+  empty: "You haven't uploaded any files yet."
+  no_results: "Your search returned no results"
+
+### STATUS ###
+  status_header: Status - Coming Soon!
+
+  graph1_header: Disk Space
+  graph1_free: Free Space
+  graph1_used: Used Space
+
+  graph2_header: Memory
+  graph2_free: Free Memory
+  graph2_used: Used Memory
+
+### SETTINGS ###
+  settings_header: Settings - Coming Soon!
+
+### HELP ###
+  help_header: 			Help
+  help_search_button: 	Search
+
+  help_sub_1:	"Do you have a problem, or are you stuck somewhere?"
+  help_sub_2:	"Then please visit this page for the solution, or read the manual."
+  help_sub_3:	"Did you not find an answer to your problem?"
+  help_sub_4:	"Then please contact support."
+
+  help_menu_1:	Your Memocom
+  help_menu_2:	General (Questions)
+  help_menu_3:	Hardware
+  help_menu_4:	FAQ
+  help_menu_5:	Tutorials
+  help_menu_6:	Support
+
+  help_coming_soon:	Coming Soon!

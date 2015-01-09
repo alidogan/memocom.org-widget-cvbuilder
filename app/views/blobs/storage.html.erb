@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+  <head>
+      <meta charset="utf-8">
+      <title>Memocom.org</title>
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <!-- Fonts -->
+      <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+
+      <!-- Javascript -->
+
+  </head>
+  <body>
+    <div id="wrapper">
+        <div id="main_nav_bar">
+            <div id="logo">
+                <a href=""><img src="assets/logo_temp.png" alt=""/></a>
+            </div>
+            <div id="nav_main">
+                <ul>
+                    <li><%= link_to "Home", blobs_path %></li>
+                    <li><span>|</span></li>
+                    <li class="active"><%= link_to "Storage", storage_path %>   </li>
+                <!--<li><span>|</span></li>
+                    <li><a href="#">Mail</a></li>
+                    <li><span>|</span></li>
+                    <li><a href="#">Social</a></li>
+                    <li><span>|</span></li>
+                    <li><a href="#">Contacts</a></li>-->
+                    <li><span>|</span></li>
+                    <li><%= link_to 'About', about_path %></li>
+                </ul>
+            </div>
+             <div id="nav_user">
+                <ul>
+                    <li class="notification_button">
+                        <a href="">
+                            <img src="assets/Icons/medium/16x20_notification.png" alt="Notifications"/>                     
+                        </a>
+                        <ul>
+                            <li class="notification_title">Notifications:</li>
+
+                                <% @filenames_n.each_with_index do |upload, i| %>
+                                    <li>
+                                        <a href="#">
+                                            <%= image_tag @icons_n[i] %>
+                                            <span>- <%= upload %> uploaded</span>
+                                            <div class="clear"></div>
+                                        </a>
+                                    </li>
+                                <% end %>
+
+                                
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#upload-popup" class="open-popup-link">
+                            <img src="assets/Icons/medium/18x20_upload.png" alt="Upload files"/>
+                        </a>
+                    </li>
+                <!--<li>
+                        <a href="#">
+                            <img src="assets/Icons/medium/15x20_sync.png" alt="Sync storage"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="assets/Icons/medium/18x20_settings.png" alt="Settings"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"><img src="assets/Icons/medium/15x20_logout.png" alt="Logout"/>
+                        </a>
+                    </li>-->
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="main_content">
+            <div id="side_nav">
+                <ul>
+                    <li>
+                        <div class="sidebar_icon">
+                            <img src="assets/Icons/small/16x16_filter.png" alt="" />
+                        </div>                    
+                        <div id="filter_slideout" class="sidebar_slideout">
+                            <ul>
+                                <li class="filter_title">Filter storage on:</li>
+                                
+                                
+                            <li class="filter_button"><a href="#">Filter</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="content_wrapper">
+                <div id="page_title">
+                    <h1>Storage</h1>
+                </div>
+                <div id="files_wrapper">
+                    
+                    <!-- ITEMS -->
+
+                    <% if @data.nil? %>
+
+                    Er zijn geen bestanden gevonden.
+
+                    <% end %>
+
+                    <% if !@filenames.nil? %>
+
+                        <% @filenames.each_with_index do |item, i| %>
+                        
+                        <div class="item">
+                            <div class="thumbnail">
+                                <% thumb = @thumbnails[i] %>
+                                <% thumb = thumb.sub("IP_HERE_TEMP_HJK", @ip) %>
+                                <%= image_tag thumb %>
+                            </div>
+                            <div class="info_overlay">
+                                <div class="title">
+                                    <span><%= item %></span>
+                                </div>
+                                <div class="icon">
+                                    <%= image_tag @icons[i] %>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="buttons">
+                                <div class="detail_button">
+                                    <a href="#details-popup" class="open-popup-link">
+                                        <img src="assets/Icons/details.png" alt=""/>
+                                    </a>
+                                </div>
+                                <div class="share_button" onclick="setShareInfo('<%=item%>', 'public?d=<%= @links[i]%>', 'private?d=<%= @links[i]%>', <%= @keys[i] %>);">
+                                    <a href="#share-popup" class="open-popup-link">
+                                        <img src="assets/Icons/share.png" alt=""/>
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="bg"></div>
+                        </div>
+
+                        <% end %>
+                    
+                    <% end %>
+
+                    <!-- END ITEMS -->
+                    
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div id="">
+            
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="inner">
+            <span>Memocom.org</span>
+        </div>
+    </div>
+      
+    <!-- Pop-ups -->
+    <div id="upload-popup" class="white-popup mfp-hide">
+        <div id="upload_form_wrapper">
+            <div class="upload_form">
+                <h1>Upload</h1>
+                <%= form_for(@blob) do |f| %>
+                    <%= f.file_field :file_input, multiple: true %><br /><br />
+                    <%= hidden_field_tag(:return_to, "storage") %>
+                    <%= f.submit "Upload" %>
+                <% end %>
+            </div>
+            <div class="loading_status">
+                <img src="assets/Icons/loading.gif" alt="Uploading" title="Uploading"/>
+            </div>
+            <div class="clear"></div>
+        </div> 
+    </div>
+
+    <div id="details-popup" class="white-popup mfp-hide">
+        <div id="details_wrapper">
+            <h1>Details</h1>
+            <div class="details_popup_top">
+                <div class="detail_image">
+                    <img src="assets/Icons/32x32/32x32_audio.png" alt=""/>
+                    <div class=""></div>
+                </div>
+                <div class="detail_info">
+                    <div class="detail_title">
+                        <h2>Banaan</h2>
+                        <img src="assets/Icons/32x32/32x32_audio.png" alt=""/>
+                        <div class="clear"></div>
+                    </div>
+                    <table>
+                        <tr>
+                            <td>Date:</td>
+                            <td>20 - 11 - 14</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="details_popup_bottom">
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+            </div>
+        </div> 
+    </div>
+
+    <div id="share-popup" class="white-popup mfp-hide">
+        <div id="share_wrapper">
+            <h1>Share</h1>
+            <div class="public_share">
+                <h2>Public:</h2>
+                <div class="link_wrapper">
+                    <p>Link: <a href="#" class="share_link">231237y1h2euihe7ye2uhe2uhe</a></p>
+                    <span>Kopieer en plak om de link te delen.</span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="private_share">
+                <h2>Private:</h2>
+                <div class="link_wrapper">
+                    <p>Link: <a href="#" class="share_link">231237y1h2euihe7ye2uhe2uhe</a></p>
+                    <span>Kopieer en plak de link en een wachtwoord om te deze delen.</span>
+                    <div class="clear"></div>
+                    <ul class="passkeys">
+                        <li>Key One</li>
+                        <li>Key Two</li>
+                        <li>Key Three</li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+
+
+    <!-- End Pop-ups --> 
+      
+    <script type="text/javascript">
+        $(function(){ //DOM Ready
+        
+            $('.open-popup-link').magnificPopup({
+                type:'inline',
+                midClick: true
+            });
+            
+        });
+    </script>
+  </body>
+</html>

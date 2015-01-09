@@ -1,0 +1,15 @@
+<div ng-controller="todoController">
+    <form name="frm" ng-submit="addTodo()">
+        <input type="text" name="newtodo" ng-model="newTodo" style="float: left; width: 100%;" required />
+        <button class="btn btn-default btn-xs" ng-disabled="frm.$invalid" style="float: left;">
+            <i class="glyphicon glyphicon-plus"></i>Add Note 
+        </button>
+    </form>
+    <button class="btn btn-default btn-xs" ng-click="clearCompleted()" ><i class="glyphicon glyphicon-trash"></i>Clear Note</button>
+    <ul style="padding-left: 0px;">
+        <li ng-repeat="todo in todos" style="background-color: white;">
+            <input type="checkbox" ng-model="todo.done" />
+            <span ng-class="{'done': todo.done}">{{todo.title}}</span>
+        </li>
+    </ul>
+</div>

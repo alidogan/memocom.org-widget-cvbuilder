@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="img/favicon/favicon.ico">
+
+        <title>Memocom.org | Status</title>
+        
+        <!-- Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+        
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul id="status_sidebar" class="nav nav-sidebar">
+                        <li class="active"><a href="status.html">Opslag</a></li>
+                        <li><a href="#">Geheugen</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h1 class="page-header">Opslag status</h1>
+                    <div id="status_wrapper" class="row">
+                        <div id="storage_status" class="row">
+                            <div class="col-md-6">
+                                <div id="filetype_chart"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Bestandstype</th>
+                                                <th>Hoeveelheid</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <% @data_for_filetype_piechart.each do |filetype, count| %>
+                                            <tr>
+                                                <td><%=filetype.capitalize%></td>
+                                                <td><%=count %> bestanden</td>
+                                            </tr>
+                                        <% end %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="disk_space_chart"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Hoeveelheid</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Beschikbaar</td>
+                                                <td><%= @free_space %> MB</td>
+                                            </tr>
+                                            <tr>
+                                                <td>In gebruik</td>
+                                                <td><%= @used_space %> MB</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Memocom.org - 2014</p>
+        </footer>
+        
+        <!-- JavaScript functions
+        ================================================== -->
+        <script type="text/javascript">
+            
+            //Charts
+            google.load('visualization', '1.0', {'packages':['corechart']});
+            google.setOnLoadCallback(drawAllCharts);
+            
+            function drawFiletypeChart() {
+
+                // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                data.addRows([
+                <% @data_for_filetype_piechart.each do |filetype, count| %>
+                  ['<%=filetype.capitalize%>s', <%=count%>],
+                <%end%>
+                ['', 0]
+                ]);
+
+
+                // Set chart options
+                var options = {
+                    'title':'Bestandstype in opslag', 
+                    'width':500, 
+                    'height':400
+                };
+
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('filetype_chart'));
+                chart.draw(data, options);
+                    
+            }
+            
+            function drawDiskSpaceChart(){
+                 // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                data.addRows([
+                    ['Vrij', <%= @free_space %>],
+                    ['In gebruik', <%= @used_space %>]
+                ]);
+
+                // Set chart options
+                var options = {
+                    'title':'Schijfruimte', 
+                    'width':500, 
+                    'height':400
+                };
+                
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('disk_space_chart'));
+                chart.draw(data, options);
+            }
+            
+            function drawMemoryChart(){
+                 // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                data.addRows([
+                    ['Mushrooms', 3],
+                    ['Onions', 1],
+                    ['Olives', 1],
+                    ['Zucchini', 1],
+                    ['Pepperoni', 2]
+                ]);
+
+                // Set chart options
+                var options = {
+                    'title':'Geheugen', 
+                    'width':500, 
+                    'height':400
+                };
+                
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('memory_chart'));
+                chart.draw(data, options);
+            }
+            
+            function drawAllCharts(){
+                drawFiletypeChart();
+                drawDiskSpaceChart();
+                //drawMemoryChart();
+            }
+            
+        </script>
+    </body>
+</html>
