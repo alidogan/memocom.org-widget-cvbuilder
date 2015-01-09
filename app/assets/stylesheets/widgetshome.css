@@ -1,0 +1,83 @@
+/* Style widgetshome */
+
+.widgetshome {   
+ /* Gradient background */ 
+ /* IE10 Consumer Preview */ 
+background-image: -ms-radial-gradient(left center, ellipse farthest-corner, #FFFFFF 0%, #839CAD 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-radial-gradient(left center, ellipse farthest-corner, #FFFFFF 0%, #839CAD 100%);
+
+/* Opera */ 
+background-image: -o-radial-gradient(left center, ellipse farthest-corner, #FFFFFF 0%, #839CAD 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(radial, left center, 0, left center, 963, color-stop(0, #FFFFFF), color-stop(1, #839CAD));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-radial-gradient(left center, ellipse farthest-corner, #FFFFFF 0%, #839CAD 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: radial-gradient(ellipse farthest-corner at left center, #FFFFFF 0%, #839CAD 100%);
+}
+
+.gridster .gridster-item {
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    color: #004756;
+    background: #ffffff;
+    padding: 10px;
+}
+
+@media screen and (min-width: 631px) {
+        .box-content {
+            position: absolute;     
+            top: 37px;     
+            bottom: 10px;     
+            left: 10px;     
+            right: 10px;      
+            overflow: hidden;
+        }
+}
+
+@media screen and (max-width: 631px) {
+        .dashboard {
+            margin-top: 60px !important;
+        }
+}
+
+@media screen and (max-width: 631px) {
+        .dashboard-edit {
+            margin-top: 10px !important;
+        }
+}
+
+.widgetshome .container .edit_button {
+	margin-right: 20px; 
+	margin-top: 13px;
+}
+
+.widgetshome .container .add_clear_button {
+	margin-right: 10px; 
+	margin-top: 13px;
+}
+
+.widgetshome .page-header {
+	padding-bottom: 0px; 
+	margin: 0px; 
+	margin-top: 23px;
+}
+
+.widgetshome .dashboard {
+	margin-top: 40px;
+}
+
+.widgetshome .page-header h1 {
+	display: inline-block; 
+	width: 200px;
+}
+
+.widgetshome .box-header-btns .pull-right {
+	cursor: pointer;
+}

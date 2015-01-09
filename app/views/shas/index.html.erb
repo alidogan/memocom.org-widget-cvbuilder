@@ -1,13 +1,4 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="assets/favicon/favicon.ico">
-
-        <title>Memocom.org | Home</title>
+<html>
         
         <!-- Bootstrap core CSS 
         <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,45 +11,44 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-    </head>
     
     <body class="widgetshome" ng-app="app" ng-controller="DashboardCtrl">
 
         <div class="container"ng-controller="DashboardCtrl">
-            <a id="edit_grid_button" class="pull-right btn btn-primary" ng-hide="button" ng-click="changeClass(); margintop={'margin-top':'0px'}; edit=true; edit2=true; button=true; onOptions(); cursor={cursor:'move'};" style="margin-right: 20px; margin-top: 13px;">
+            <a class="pull-right btn btn-primary edit_button" ng-hide="button" ng-click="changeClass(); margintop={'margin-top':'0px'}; edit=true; edit2=true; button=true; onOptions(); cursor={cursor:'move'};">
             <i class="glyphicon glyphicon-minus"></i> Edit Widget</a>
 
-            <a class="pull-right btn btn-info" ng-show="edit2" ng-click="margintop={'margin-top':'40px'}; edit=false; edit2=false; button=false; onOptions2(); cursor={cursor:'auto'};" style="margin-right: 20px; margin-top: 13px; float: ri"><i class="glyphicon glyphicon-lock"></i> Edit Widget</a> 
+            <a class="pull-right btn btn-info edit_button" ng-show="edit2" ng-click="margintop={'margin-top':'40px'}; edit=false; edit2=false; button=false; onOptions2(); cursor={cursor:'auto'};">
+                <i class="glyphicon glyphicon-lock"></i> Edit Widget</a> 
 
-            <a class="pull-right btn btn-success" ng-show="button" ng-click="addWidget()" style="margin-right: 10px; margin-top: 13px;"><i class="glyphicon glyphicon-plus"></i> Add Widget</a> 
+            <a class="pull-right btn btn-success add_clear_button" ng-show="button" ng-click="addWidget()">
+                <i class="glyphicon glyphicon-plus"></i> Add Widget</a> 
          
 
-            <a class="pull-right btn btn-danger" ng-show="edit" ng-click="clear()" style="margin-right: 10px; margin-top: 13px;"><i class="glyphicon glyphicon-trash"></i> Clear all</a>
-                <!-- <a class="pull-right btn btn-success" ng-click="save()"><i class="glyphicon glyphicon-ok"></i> Save</a> -->
-                <!-- <button type="button" class="btn btn-default" ng-click="onOptions3()">Search</button> -->
-            <div class="page-header" ng-show="button" style="padding-bottom: 0px; margin: 0px; margin-top: 23px;"> 
-            <h1 style="display: inline-block; width: 200px;">
-        </div>  
+            <a class="pull-right btn btn-danger add_clear_button" ng-show="edit" ng-click="clear()">
+                <i class="glyphicon glyphicon-trash"></i> Clear all</a>
+
+            <div class="page-header" ng-show="button"> 
+                <h1>
+            </div>  
               
 
-            <div class="dashboard" gridster="gridsterOptions" ng-style="margintop" style="margin-top: 40px;">
+            <div class="dashboard" gridster="gridsterOptions" ng-style="margintop">
                 <ul>
                 <!--widget-->
                 <li gridster-item="widget" ng-repeat="widget in dashboard" ng-style="cursor">
                     <div class="box" ng-controller="CustomWidgetCtrl">
                         <div class="box-header"> 
                             {{ widget.name }}
-                            <div class="box-header-btns pull-right" style="cursor: pointer"> 
+                            <div class="box-header-btns pull-right"> 
                                 <a title="settings" ng-show="edit" ng-click="openSettings(widget)"><i class="glyphicon glyphicon-cog"></i></a> 
                                 <a title="Remove widget" ng-show="edit" ng-click="remove(widget)"><i class="glyphicon glyphicon-trash"></i></a> 
                             </div>
                         </div>
                           <div class="box-content" ng-include src='"/assets/views/"+widget.name + ".html.erb"'></div> 
-                          <!-- <div class="box-content" ng-include src="'/assets/views/home.html'"> -->
                     </div>
                 </li>
                 <!--end widget-->
-                <!--<pre>{{dashboard | json}}</pre>-->
                 </ul>
             </div>
         </div>

@@ -1,0 +1,113 @@
+/* Cv template style */     
+.cvbuilder table {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+.cvbuilder td {
+  vertical-align: top;
+}
+.cvbuilder .toptable {
+  width: 775px;
+  align: left;
+}
+.cvbuilder .titleheader {
+  border-bottom: 1px solid #CCCCCC;
+  font-weight: bold;
+  font-size: 18px;
+  width: 775px;
+  padding-left: 3px;
+  color: black;
+  padding-bottom: -5px;
+}
+.cvbuilder .titleheader_top {
+  border-bottom: 1px solid #CCCCCC;
+  font-weight: bold;
+  font-size: 18px;
+  width: 775px;
+  padding-left: 3px;
+  color: black;
+  padding-bottom: -5px;
+  padding-top: 5px;
+}
+.cvbuilder .contenttable {
+  padding-left: 15px;
+  width: 675px;
+  padding-top: 5px;
+  line-heigth: 1.8;
+  padding-top: 10px;
+}     
+
+/* Cv Builder style */ 
+@media print {
+  
+  @page 
+  {
+      size: auto;   
+      margin: 0mm;  
+      margin-left: 16mm;
+  }
+  
+
+  .thumbnail {
+  border: none;
+  border-radius: none;
+  }
+
+  .btn {
+  display: none;
+  }
+
+  .panel-group {
+  display: none;
+  }
+
+  .container {
+  display: none;
+  }
+
+}
+
+.cvbuilder .thumbnail {
+  width:800px; 
+  margin:0 auto;
+  margin-top: 10px;
+}
+
+.cvbuilder .print {
+
+  width:800px; 
+  margin:0 auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+
+.cvbuilder .panel-group {
+  padding-top: 10px;
+  width:800px; 
+  margin:0 auto;
+
+}
+
+.cvbuilder .container {
+  width:800px;
+}
+
+.panel-heading .btn-xs {
+  float: right;
+}
+
+.cvbuilder .modal-body .btn-primary {
+  float: left;
+}
+.cvbuilder .modal-body .btn-info {
+  float: left;
+}
+
+.cvbuilder .clearfix {
+  padding: 0px !important;
+}
+
+.cvbuilder .modal-body .btn-default {
+  margin-left: 10px;
+}
