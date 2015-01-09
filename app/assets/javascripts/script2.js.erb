@@ -53,13 +53,6 @@ app.controller('DashboardCtrl', ['$scope', '$timeout','$http',
 		$http.get('dashboard.json').success (function(data){
 				$scope.dashboard = data;
 			}); 
-		
-		// Json positie opslaan
-		$scope.save = function() {
-    		$http.post('dashboard.json', $scope.dashboard).success(function(data) {
-    		});
-    		$scope.msg = 'Position saved';
-  		};
 
   		$scope.$watch('dashboard', function(data){
    			$http.post('dashboard.json', $scope.dashboard).success(function(data) {

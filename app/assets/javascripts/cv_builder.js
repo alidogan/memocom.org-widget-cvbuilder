@@ -297,73 +297,52 @@ $scope.form_werkervaring = [
   }
 ];
 
-$scope.load_opleidingen = function() { 
-$http.get('opleidingen_read.json').success (function(data3){
-    if (data3 == "") {
-      console.log('data3 = null');
-        $scope.model_opleidingen = {"Opleidingen":[{}]};
-    }
-    else {
-      console.log('opleidingen found');
-        $scope.model_opleidingen = data3;
-      }
-    }).error(function(data3) {
-      console.log('data not found');
-      $scope.model_opleidingen = {"Opleidingen":[{}]};
-    });
-}    
-
-$scope.load_personalia = function() { 
-    $http.get('personalia_read.json').success (function(data){
-    if (data == "") {
-      console.log('data = null');
-        $scope.model = {};
-    }
-    else {
-      console.log('data found');
-        $scope.model = data;
-      }
-  }).error(function(data) {
-    console.log('data not found');
-    $scope.model = {};
-  });
-}
-
-$scope.load_werkervaring = function() { 
- $http.get('werkervaring_read.json').success (function(data4){
-    if (data4 == "") {
-      console.log('data4 = null');
-        $scope.model_werkervaring = {"Werkervaring":[{}]};
-    }
-    else {
-      console.log('werkervaring found');
-        $scope.model_werkervaring = data4;
-      }
-    }).error(function(data4) {
-      console.log('data not found');
-      $scope.model_werkervaring = {"Werkervaring":[{}]};
-  });
-}
-               
-  $scope.load_talen = function() {       
-
-    $http.get('talen_read.json').success (function(data2){
-      if (data2 == "") {
-          console.log('data2 = null');
-          $scope.model_talen = {"Talen":[{}]};
-      } else {
-        console.log('talen found');
-         $scope.model_talen = data2;
+$scope.load = function(thing) { 
+    $http.get(thing + '_read.json').success (function(data){
+          if (data == "") {
+            if (thing == "opleidingen") {
+              $scope.model_opleidingen = {"Opleidingen":[{}]};
+            }
+            else if (thing == "werkervaring") {
+              $scope.model_werkervaring = {"Werkervaring":[{}]};
+            } else if (thing == "personalia"){
+              $scope.model = {"Personalia":[{}]};
+            } else if (thing == "talen"){
+              $scope.model_talen = {"Talen":[{}]};
+            }
         
-      }
+          }
+          else {
+            if (thing == "opleidingen") {
+              $scope.model_opleidingen = data;
+            }
+            else if (thing == "werkervaring") {
+              $scope.model_werkervaring = data;
+            } else if (thing == "personalia"){
+              $scope.model = data;
+            } else if (thing == "talen"){
+              $scope.model_talen = data;
+            } 
+          }
 
-    }).error(function(data2) {
-      console.log('data not found');
-      $scope.model_talen = {"Talen":[{}]};
-    });
+          }).error(function(data) {
+            if (thing == "opleidingen") {
+              $scope.model_opleidingen = {"Opleidingen":[{}]};
+            }
+            else if (thing == "werkervaring") {
+              $scope.model_werkervaring = {"Werkervaring":[{}]};
+            } else if (thing == "personalia"){
+              $scope.model = {"Personalia":[{}]};
+            } else if (thing == "talen"){
+              $scope.model_talen = {"Talen":[{}]};
+            }
+          });
+    }    
 
-
-  }
+    $scope.load('opleidingen')
+    $scope.load('werkervaring')
+    $scope.load('personalia')
+    $scope.load('talen')
 
   $scope.onSubmit = function(form) {
     // First we broadcast an event so all fields validate themselves
@@ -420,4 +399,6 @@ $scope.load_werkervaring = function() {
         });
     }
   }
-});
+}  
+  
+);

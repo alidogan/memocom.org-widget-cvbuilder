@@ -78,6 +78,6 @@ background-image: radial-gradient(ellipse farthest-corner at left center, #FFFFF
 	width: 200px;
 }
 
-.widgetshome .box-header-btns .pull-right {
-	cursor: pointer;
+.widgetshome .box-header-btns {
+    cursor: pointer;
 }
