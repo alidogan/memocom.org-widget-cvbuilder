@@ -2,20 +2,6 @@ class ShasController < ApplicationController
 
 	#SETTINGS = Settings.first
 
-	def make_pie_chart
-		require 'gruff'
-  		a = Sha.group("filetype").count
-
-  		g = Gruff::Pie.new
-  		g.title = 'Filetypes'
- 
-  		a.each do |key, value|
-  		puts g.data(key, a[key])
-  		end
-
-		g.write('app/assets/images/pie.png')
-	end
-
 	def new
 		@sha = Sha.new
 	end
