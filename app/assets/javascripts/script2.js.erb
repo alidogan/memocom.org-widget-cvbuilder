@@ -49,11 +49,12 @@ app.controller('DashboardCtrl', ['$scope', '$timeout','$http',
 		};
     };
 
-		// Ophalen json
+		// load json file
 		$http.get('dashboard.json').success (function(data){
 				$scope.dashboard = data;
 			}); 
 
+		// save json file
   		$scope.$watch('dashboard', function(data){
    			$http.post('dashboard.json', $scope.dashboard).success(function(data) {
     		});
@@ -63,10 +64,12 @@ app.controller('DashboardCtrl', ['$scope', '$timeout','$http',
       		{ size: { x: 2, y: 1 }, position: [0, 0] },
     	];
 
+    	// clear all widget positions
 		$scope.clear = function() {
 			$scope.dashboard = [];
 		};
 
+		// add new widget
 		$scope.addWidget = function() {
 			$scope.dashboard.push({
 				name: "New Widget",
@@ -78,6 +81,7 @@ app.controller('DashboardCtrl', ['$scope', '$timeout','$http',
 	}
 ])
 
+// widget settings icons controller
 .controller('CustomWidgetCtrl', ['$scope', '$modal',
 	function($scope, $modal) {
 
@@ -101,6 +105,7 @@ app.controller('DashboardCtrl', ['$scope', '$timeout','$http',
 	}
 ])
 
+// widget settings form controller
 .controller('WidgetSettingsCtrl', ['$scope', '$timeout', '$rootScope', '$modalInstance', 'widget',
 	function($scope, $timeout, $rootScope, $modalInstance, widget) {
 		$scope.widget = widget;

@@ -1,7 +1,7 @@
 class FileController < ApplicationController
-  respond_to :html, :js, :xml, :json
   layout false
-	  
+
+  # Create json of angular gridster positions	  
 	def create
     render nothing: true
   	Dir.chdir("public") do
@@ -16,6 +16,7 @@ class FileController < ApplicationController
     end
   end
 
+  # Create json of to do list notes  
   def todo
     render nothing: true
     Dir.chdir("public") do

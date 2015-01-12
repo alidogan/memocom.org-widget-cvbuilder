@@ -6,8 +6,9 @@ class ApplicationController < ActionController::Base
 	before_action :set_locale
 	before_filter :make_pie_chart
 	
+	#Create pie chart for the widget
 	def make_pie_chart
-		  require 'gruff'
+		require 'gruff'
   		a = Sha.group("filetype").count
 
   		g = Gruff::Pie.new

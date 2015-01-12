@@ -2,6 +2,7 @@ class CvController < ApplicationController
   def index
   end
 
+	# Create json files of personalia	 
 	def personalia
       render nothing: true
       directory_name = "public/cv"
@@ -16,6 +17,7 @@ class CvController < ApplicationController
   		end
   	end
 
+	# Create json files of languages	 
   	def talen
       render nothing: true
       directory_name = "public/cv"
@@ -35,6 +37,7 @@ class CvController < ApplicationController
   		end
   	end
 
+	# Create json files of educations	
   	def opleidingen
       render nothing: true
       directory_name = "public/cv"
@@ -54,6 +57,7 @@ class CvController < ApplicationController
   		end
   	end
 
+	# Create json files of work experience	 
   	def werkervaring
 		render nothing: true
 		directory_name = "public/cv"
